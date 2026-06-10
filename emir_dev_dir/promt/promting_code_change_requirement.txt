@@ -1,0 +1,70 @@
+
+- Penjadwalan Tanggal & Waktu Pengiriman di Layar PoS
+
+    Kaitan Studi Kasus: Menjual furnitur/dekorasi berukuran besar yang membutuhkan pengiriman ke rumah pelanggan
+
+. Ini pengembangan dari idemu sebelumnya (Kirim via Mobil Pickup).
+Modifikasi: Menambahkan elemen Date/Time Picker (kalender jam dan tanggal) menggunakan code JavaScript di layar pembayaran PoS. Data ini kemudian otomatis masuk ke form Delivery Order di modul Inventory.
+Nilai Plus Rubrik: Menambahkan field baru di database (struktur data) dan fungsionalitas baru yang mempermudah skenario logistik (Kriteria 7 & 8).
+
+
+
+-  Logika Diskon Bundling/Paket Furnitur Otomatis
+
+    Kaitan Studi Kasus: Toko dekorasi rumah sering menjual barang secara set (misal: Beli 1 Meja, diskon 20% untuk 4 Kursi). Ini juga mendukung "kenyamanan pembeli"
+
+- Modifikasi: Menulis script Python pada model PoS yang otomatis membaca isi keranjang belanja. Jika kombinasi barang tertentu (Meja + Kursi) masuk bersamaan, sistem otomatis mengaplikasikan potongan harga tanpa kasir harus menghitung manual.
+Nilai Plus Rubrik: Modifikasi murni pada alur logika sistem/perhitungan finansial, menunjukkan penguasaan kode ERP yang kuat.
+
+
+
+-  Fitur "Unbundling" atau Pecah Barang Paket di Gudang
+
+    Kaitan Studi Kasus: Manajemen stok produk yang tidak terorganisir
+
+. Terkadang toko harus membongkar barang paket (misal: Set Piring isi 12) untuk dijual satuan.
+Modifikasi: Menambahkan tombol kustom "Pecah Paket" di modul Inventory. Jika ditekan, stok barang "Set Piring" akan berkurang 1, namun otomatis menambah stok "Piring Satuan" sebanyak 12 buah secara otomatis tanpa harus input manual.
+Nilai Plus Rubrik: Penyesuaian logika sistem yang memecahkan masalah kompleks terkait konversi satuan barang (Kriteria 7).
+
+
+1. Refund barang cacat
+
+    Analisis: Sangat perlu dipertahankan! Di rubrik Kriteria 8 (Hasil Implementasi) tertulis jelas bahwa skenario demo harus meng-cover "berbagai kemungkinan skenario (misalnya transaksi normal, stok habis, pembatalan*, dll)"*.
+    Perbaikan/Komentar: Jangan hanya sekadar tombol refund biasa. Buat modifikasi di mana saat kasir menekan tombol "Refund", akan muncul pop-up yang memaksa kasir memilih "Alasan Retur" (misal: Barang Cacat Pabrik, Rusak saat Pengiriman, dll). Ini menunjukkan "penyesuaian logika sistem" yang diminta pada Kriteria 7 tingkat 80-100.
+
+2. Kirim mobil via pickup
+
+    Analisis: Sangat relevan karena toko ini menjual perabotan rumah tangga dan dekorasi
+
+     yang ukurannya bisa sangat besar.
+    Perbaikan/Komentar: Modifikasi ini akan sangat bagus jika kamu menambahkan sebuah checkbox atau tombol khusus di halaman pembayaran kasir (PoS). Jika dicentang, ini akan tercatat di struk pelanggan. Ini menunjukkan pemahaman mendalam terhadap proses bisnis (Kriteria 7).
+
+3. Modifikasi Source Code: Menambahkan field baru (Dimensi, Material, dll)
+
+    Analisis: Ini adalah fitur "wajib" untuk mendapatkan nilai 80-100 di Kriteria 7. Rubrik secara eksplisit meminta adanya "perubahan struktur data" untuk mendapat nilai maksimal. Menambahkan field baru di database (model) adalah definisi dari perubahan struktur data.
+    Perbaikan/Komentar: Sudah sempurna. Field "Material" ini yang akan menjadi pemicu (trigger) untuk memunculkan notifikasi peringatan pengemasan khusus yang kamu ambil di tantangan nomor 3
+
+    .
+
+4. Validasi Blokir Penjualan Jika Stok Gudang Kosong (Mencegah Selisih)
+
+    Analisis: Ini adalah solusi inti untuk menyelesaikan masalah utama perusahaan, yaitu "barang yang ada di gudang dan jumlah pendapatan tidak seimbang"
+
+.
+Perbaikan/Komentar: Pertahankan! Di rubrik Kriteria 8 tertulis "skenario stok habis". Dengan fitur ini, kamu bisa mendemonstrasikan saat sidang/demo: "Pak/Bu Dosen, ini kalau kasir mencoba menjual barang yang di sistem sudah habis, otomatis di-blokir oleh sistem agar tidak terjadi selisih minus". Ini akan memberi kesan luar biasa.
+
+jadi nanti tuh kalo stock < 0 akan ada notifikasi atau apalah cok
+
+
+. Modifikasi Tema dan UI Antarmuka PoS (Menjawab Kriteria 7 - Kreativitas)
+
+    Deskripsi: Memodifikasi source code CSS/SCSS pada Odoo untuk mengubah tampilan default PoS (yang biasanya berwarna ungu/abu-abu standar) menjadi warna yang mencerminkan "Toko Utama Sentosa". Kamu bisa memperbesar ukuran font harga, mengubah warna tombol kategori produk dan pemberian gambar/logo , dan menambahkan logo perusahaan di layar utama.
+    Alasan: Sesuai permintaanmu untuk membuat tampilan enak dilihat, dan langsung memenuhi syarat Kriteria 7 tingkat 80-100 yaitu "menunjukkan kreativitas".
+    dan juga aku ingin agar card box dari barang kategory tertentu juga berwarna per category pokoknya perbagus saja
+
+ dan berikut requirement warnanya
+   Warna Utama (Primary): Biru Navy / Biru Dongker. (Biru secara universal dalam desain UI melambangkan integritas, kejujuran, dan profesionalisme). Warna ini cocok untuk warna header PoS atau warna tombol utama (seperti tombol Pembayaran).
+Warna Sub/Sekunder (Secondary): Krem Hangat (Warm Beige) atau Coklat Kayu Muda. (Mewakili unsur kenyamanan dan furnitur/barang rumah tangga). Cocok digunakan sebagai warna latar belakang (background) area produk.
+Warna Aksen (Accent): Merah Bata (Terracotta). Digunakan untuk tombol-tombol peringatan atau tombol notifikasi barang pecah belah.
+warna # A4D65E , # 005B99 , #003366
+

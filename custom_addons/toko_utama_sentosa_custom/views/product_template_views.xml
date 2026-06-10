@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Product Template Form View -->
+        <record id="view_product_template_form_custom" model="ir.ui.view">
+            <field name="name">product.template.form.custom</field>
+            <field name="model" >product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='general_information']" position="inside">
+                    <group string="Informasi Spesifik Sentosa">
+                        <field name="custom_dimension"/>
+                        <field name="custom_material"/>
+                    </group>
+                    <group string="Konfigurasi Bundling (Paket)">
+                        <field name="is_bundle"/>
+                        <field name="bundle_item_id" invisible="is_bundle == False"/>
+                        <field name="bundle_qty" invisible="is_bundle == False"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Product Product Form View (Unbundling Action) -->
+        <record id="view_product_product_form_custom_unbundle" model="ir.ui.view">
+            <field name="name">product.product.form.custom.unbundle</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_unbundle_product" type="object" string="Pecah Paket (Unbundle)" class="oe_highlight" invisible="is_bundle == False"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

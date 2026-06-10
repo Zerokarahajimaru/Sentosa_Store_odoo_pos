@@ -1,0 +1,30 @@
+/* UI/UX Styling untuk PoS Login Session */
+
+$primary-navy: #003366;
+$warm-beige: #FAF0E6;
+
+.pos-login-screen, .pos-login {
+    background-color: $warm-beige !important;
+    
+    .login-box, .pos-login-panel {
+        background-color: white !important;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        border-top: 5px solid $primary-navy;
+        
+        h1, h2, h3 {
+            color: $primary-navy !important;
+            font-weight: 600;
+        }
+        
+        .btn-primary, .button.next {
+            background-color: $primary-navy !important;
+            border-color: $primary-navy !important;
+            color: white !important;
+            
+            &:hover {
+                background-color: lighten($primary-navy, 10%) !important;
+            }
+        }
+    }
+}

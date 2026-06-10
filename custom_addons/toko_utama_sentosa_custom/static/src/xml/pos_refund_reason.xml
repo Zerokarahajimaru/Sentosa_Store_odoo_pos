@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="toko_utama_sentosa_custom.RefundReasonPopup" owl="1">
+        <Dialog size="'md'" title="'Pilih Alasan Refund'">
+            <div class="p-3">
+                <label class="form-label font-weight-bold">Alasan Retur / Refund:</label>
+                <select class="form-select w-100 p-2" t-model="state.reason">
+                    <option value="Barang Cacat Pabrik">Barang Cacat Pabrik</option>
+                    <option value="Rusak saat Pengiriman">Rusak saat Pengiriman</option>
+                    <option value="Kesalahan Input Kasir">Kesalahan Input Kasir</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="confirm">Konfirmasi</button>
+                <button class="btn btn-secondary" t-on-click="cancel">Batal</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>
