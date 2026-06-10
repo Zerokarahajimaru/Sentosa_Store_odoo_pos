@@ -1,0 +1,24 @@
+git<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+        <!-- Target div.product-name instead of li. Di Odoo 19 class-nya adalah div -->
+        <xpath expr="//div[hasclass('product-name')]" position="after">
+            <div t-if="line.product_id and (line.product_id.custom_dimension or line.product_id.custom_material)" 
+                 class="product-info-custom text-muted px-1" 
+                 style="font-size: 0.8rem; line-height: 1.2;">
+                <t t-if="line.product_id.custom_dimension">
+                    <span class="me-2 text-nowrap">
+                        <i class="fa fa-arrows-alt me-1" style="font-size: 0.7rem;"></i>
+                        <t t-esc="line.product_id.custom_dimension"/>
+                    </span>
+                </t>
+                <t t-if="line.product_id.custom_material">
+                    <span class="text-nowrap">
+                        <i class="fa fa-cube me-1" style="font-size: 0.7rem;"></i>
+                        <t t-esc="line.product_id.custom_material"/>
+                    </span>
+                </t>
+            </div>
+        </xpath>
+    </t>
+</templates>

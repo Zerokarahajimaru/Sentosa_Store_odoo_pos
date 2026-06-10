@@ -32,6 +32,7 @@
             'toko_utama_sentosa_custom/static/src/js/pos_stock_validation.js',
             'toko_utama_sentosa_custom/static/src/xml/pos_refund_reason.xml',
             'toko_utama_sentosa_custom/static/src/xml/pos_delivery_schedule.xml',
+            'toko_utama_sentosa_custom/static/src/xml/pos_product_info.xml',
         ],
         'web.assets_backend': [
             'toko_utama_sentosa_custom/static/src/scss/backend_dashboard.scss',
