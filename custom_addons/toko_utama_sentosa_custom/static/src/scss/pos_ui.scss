@@ -1,0 +1,67 @@
+/* UI/UX Styling untuk POS Frontend */
+
+$primary-navy: #003366;
+$warm-beige: #FAF0E6;
+$terracotta: #E2725B;
+$accent-green: #A4D65E;
+
+/* Header Area */
+.pos .pos-topheader {
+    background-color: $primary-navy !important;
+    color: white !important;
+    border-bottom: 2px solid darken($primary-navy, 10%) !important;
+
+    .btn, .navbar-menu button, .orders-button {
+        background-color: transparent !important;
+        color: white !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        &.active {
+            background-color: rgba(255, 255, 255, 0.4) !important;
+            font-weight: bold;
+        }
+        i {
+            color: white !important;
+        }
+    }
+}
+
+/* Background Area Produk */
+.pos .rightpane {
+    background-color: $warm-beige !important;
+}
+
+.pos .product-list {
+    background-color: transparent !important;
+}
+
+/* Tombol Pembayaran / Utama */
+.pos .pay-btn, .pos .actionpad .button.pay {
+    background-color: $primary-navy !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 8px !important;
+    
+    &:hover {
+        background-color: lighten($primary-navy, 10%) !important;
+    }
+}
+
+/* Tombol Refund / Danger / Peringatan */
+.pos .control-button.refund, .pos .button.refund {
+    background-color: $terracotta !important;
+    color: white !important;
+    
+    &:hover {
+        background-color: darken($terracotta, 10%) !important;
+    }
+}
+
+/* Aksen Tambahan / Success */
+.pos .button.validate {
+    background-color: $accent-green !important;
+    color: $primary-navy !important;
+}

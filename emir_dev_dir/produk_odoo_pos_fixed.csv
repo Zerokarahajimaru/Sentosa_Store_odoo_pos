@@ -1,0 +1,19 @@
+id,name,categ_id/id,list_price,barcode,image_1920,pos_categ_ids,available_in_pos
+prod_pisau_dapur,Pisau Dapur Stainless Steel,cat_alat_potong,45000,8992045000010,"https://loremflickr.com/600/600/kitchen,knife",Alat potong,True
+prod_gunting_kertas,Gunting Kertas Serbaguna,cat_alat_potong,15000,8992045000027,https://loremflickr.com/600/600/scissors,Alat potong,True
+prod_cutter_besar,Cutter Besar Heavy Duty,cat_alat_potong,22000,8992045000034,"https://loremflickr.com/600/600/cutter,tool",Alat potong,True
+prod_pisau_daging,Pisau Daging Besar (Cleaver),cat_senjata_tajam,125000,8992045000041,https://loremflickr.com/600/600/cleaver,Senjata tajam,True
+prod_pisau_lipat,Pisau Lipat Berburu Tactical,cat_senjata_tajam,85000,8992045000058,https://loremflickr.com/600/600/pocketknife,Senjata tajam,True
+prod_porstex,Pembersih Lantai Porstex 1L,cat_bahan_kimia,28000,8992045000065,"https://loremflickr.com/600/600/detergent,bottle",Bahan kimia,True
+prod_wipol,Karbol Wangi Wipol 750ml,cat_bahan_kimia,20000,8992045000072,"https://loremflickr.com/600/600/cleaner,bottle",Bahan kimia,True
+prod_bayclin,Pemutih Pakaian Bayclin 500ml,cat_bahan_kimia,15000,8992045000089,"https://loremflickr.com/600/600/bleach,bottle",Bahan kimia,True
+prod_minyak_zippo,Minyak Pemantik Zippo 125ml,cat_cairan_mudah_terbakar,45000,8992045000096,"https://loremflickr.com/600/600/zippo,fluid",Cairan yang mudah terbakar,True
+prod_spiritus,Cairan Spiritus Botol 500ml,cat_cairan_mudah_terbakar,18000,8992045000102,"https://loremflickr.com/600/600/alcohol,bottle",Cairan yang mudah terbakar,True
+prod_gas_portable,Gas Portable Tokai Cook,cat_cairan_mudah_terbakar,22000,8992045000119,"https://loremflickr.com/600/600/butane,canister",Cairan yang mudah terbakar,True
+prod_bingkai_foto,Bingkai Foto Kayu Minimalis A4,cat_hiasan_dinding,35000,8992045000126,https://loremflickr.com/600/600/photoframe,Hiasan Dinding,True
+prod_lukisan_kanvas,Lukisan Kanvas Abstrak 40x40,cat_hiasan_dinding,150000,8992045000133,"https://loremflickr.com/600/600/canvas,painting",Hiasan Dinding,True
+prod_jam_dinding,Jam Dinding Karakter Klasik,cat_hiasan_dinding,65000,8992045000140,https://loremflickr.com/600/600/wallclock,Hiasan Dinding,True
+prod_vas_bunga,Vas Bunga Kaca Transparan T20,cat_furnitur_kecil,42000,8992045000157,"https://loremflickr.com/600/600/glass,vase",Furnitur Kecil,True
+prod_lilin_aroma,Lilin Aromaterapi Lavender,cat_furnitur_kecil,25000,8992045000164,https://loremflickr.com/600/600/candle,Furnitur Kecil,True
+prod_bantal_sofa,Bantal Sofa Beludru Polos,cat_furnitur_kecil,50000,8992045000171,"https://loremflickr.com/600/600/sofa,cushion",Furnitur Kecil,True
+prod_lampu_meja,Lampu Meja Belajar Aesthetic,cat_furnitur_kecil,110000,8992045000188,https://loremflickr.com/600/600/desklamp,Furnitur Kecil,True

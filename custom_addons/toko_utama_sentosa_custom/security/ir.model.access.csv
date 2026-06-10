@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_template_custom,product.template.custom,product.model_product_template,,1,1,1,1
+access_pos_order_custom,pos.order.custom,point_of_sale.model_pos_order,,1,1,1,1
+access_stock_picking_custom,stock.picking.custom,stock.model_stock_picking,,1,1,1,1

@@ -1,0 +1,32 @@
+/* UI/UX Styling untuk Dashboard Backend PoS */
+
+$primary-navy: #003366;
+$terracotta: #E2725B;
+
+.o_action_manager .o_pos_dashboard {
+    /* Style the dashboard kanban cards */
+    .o_kanban_record {
+        border-top: 4px solid $primary-navy !important;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease-in-out;
+        
+        &:hover {
+            transform: translateY(-2px);
+        }
+
+        .o_kanban_primary_left .btn-primary {
+            background-color: $primary-navy !important;
+            border-color: $primary-navy !important;
+
+            &:hover {
+                background-color: lighten($primary-navy, 10%) !important;
+                border-color: lighten($primary-navy, 10%) !important;
+            }
+        }
+        
+        .o_kanban_manage_toggle_button {
+            color: $primary-navy !important;
+        }
+    }
+}
