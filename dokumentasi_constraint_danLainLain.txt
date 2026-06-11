@@ -1,0 +1,46 @@
+DOKUMENTASI RELASI & CONSTRAINT DATABASE (pos_order, stock_picking, res_partner)
+===================================================================================
+
+Berdasarkan hasil analisis langsung ke dalam database PostgreSQL "odoo_polban_19", berikut adalah penjelasan teknis mengenai relasi antara tabel pos_order, stock_picking, dan res_partner beserta constraint yang mengikatnya.
+
+1. RELASI: pos_order (Penjualan Kasir) dengan res_partner (Pelanggan)
+-----------------------------------------------------------------------------------
+- Sifat Relasi: Many-to-One (M:1) / Banyak Order bisa dimiliki oleh 1 Pelanggan.
+- Kolom Penghubung: `partner_id` di tabel `pos_order` merujuk ke kolom `id` di tabel `res_partner`.
+- Constraint Database Asli:
+  * Nama Constraint: `pos_order_partner_id_fkey`
+  * Tipe: FOREIGN KEY
+  * Aturan Update (ON UPDATE): NO ACTION
+  * Aturan Delete (ON DELETE): SET NULL
+- Penjelasan Bisnis: 
+  Saat kasir memilih pelanggan di layar POS, sistem akan menyimpan ID pelanggan tersebut di kolom `partner_id` pada struk/order tersebut. Jika data pelanggan dihapus dari sistem (ON DELETE), nota penjualan tidak akan ikut terhapus, melainkan kolom `partner_id`-nya saja yang menjadi kosong (SET NULL). Ini penting untuk menjaga integritas data laporan keuangan agar pendapatan tidak tiba-tiba hilang hanya karena data pelanggan dihapus.
+
+2. RELASI: stock_picking (Pengiriman Gudang) dengan pos_order (Penjualan Kasir)
+-----------------------------------------------------------------------------------
+- Sifat Relasi: Many-to-One (M:1) / Banyak Surat Jalan bisa terikat ke 1 Order (terjadi jika ada retur atau backorder).
+- Kolom Penghubung: `pos_order_id` di tabel `stock_picking` merujuk ke kolom `id` di tabel `pos_order`.
+- Constraint Database Asli:
+  * Nama Constraint: `stock_picking_pos_order_id_fkey`
+  * Tipe: FOREIGN KEY
+  * Aturan Update (ON UPDATE): NO ACTION
+  * Aturan Delete (ON DELETE): SET NULL
+- Penjelasan Bisnis: 
+  Inilah "jembatan" yang menjawab masalah stok. Saat `pos_order` dibuat dan dikonfirmasi, sistem gudang (Inventory) otomatis membuat dokumen `stock_picking` (Surat Jalan/Pengeluaran Barang) yang memuat `pos_order_id` dari kasir. Jadi, setiap kali ada barang keluar dari gudang, sistem tahu persis barang itu keluar karena nota kasir yang mana. 
+  Catatan: Selain `pos_order_id`, Odoo juga mencatat nomor nota di kolom `origin` (teks biasa, bukan Foreign Key) untuk mempermudah pencarian visual.
+
+3. RELASI: stock_picking (Pengiriman Gudang) dengan res_partner (Pelanggan)
+-----------------------------------------------------------------------------------
+- Sifat Relasi: Many-to-One (M:1) / Banyak Surat Jalan dikirim ke 1 Pelanggan.
+- Kolom Penghubung: `partner_id` di tabel `stock_picking` merujuk ke kolom `id` di tabel `res_partner`.
+- Constraint Database Asli:
+  * Nama Constraint: `stock_picking_partner_id_fkey`
+  * Tipe: FOREIGN KEY
+  * Aturan Update (ON UPDATE): NO ACTION
+  * Aturan Delete (ON DELETE): SET NULL
+- Penjelasan Bisnis:
+  Dokumen gudang (`stock_picking`) butuh data alamat pengiriman. Oleh karena itu, Odoo menyalin (atau merujuk) ID pelanggan dari `pos_order` ke `stock_picking`. Ini memungkinkan tim gudang untuk mencetak label pengiriman (Shipping Label) yang berisi nama dan alamat pelanggan tujuan tanpa harus mengecek nota kasir lagi.
+
+KESIMPULAN UNTUK PRESENTASI (SIDANG/DEMO)
+===================================================================================
+Saat dosen bertanya "Bagaimana POS dan Inventory terhubung?", jawabannya adalah:
+"Melalui Foreign Key `pos_order_id` yang tertanam di tabel `stock_picking`. Saat kasir menekan tombol bayar, Odoo tidak hanya mencatat uang masuk, tapi secara transaksional men-trigger pembuatan dokumen `stock_picking` di backend yang dikunci oleh constraint `stock_picking_pos_order_id_fkey`. Ini yang menjamin stok gudang pasti berkurang secara akurat sesuai barang yang discan di kasir."
