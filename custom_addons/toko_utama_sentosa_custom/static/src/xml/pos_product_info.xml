@@ -1,24 +1,40 @@
-git<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
     <t t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
-        <!-- Target div.product-name instead of li. Di Odoo 19 class-nya adalah div -->
+        <!-- Menampilkan Dimensi dan Material di baris order POS -->
         <xpath expr="//div[hasclass('product-name')]" position="after">
             <div t-if="line.product_id and (line.product_id.custom_dimension or line.product_id.custom_material)" 
-                 class="product-info-custom text-muted px-1" 
-                 style="font-size: 0.8rem; line-height: 1.2;">
+                 class="product-info-custom text-muted px-1 mt-1" 
+                 style="font-size: 0.8rem; line-height: 1.2; display: flex; gap: 10px; flex-wrap: wrap;">
                 <t t-if="line.product_id.custom_dimension">
-                    <span class="me-2 text-nowrap">
-                        <i class="fa fa-arrows-alt me-1" style="font-size: 0.7rem;"></i>
-                        <t t-esc="line.product_id.custom_dimension"/>
+                    <span class="text-nowrap">
+                        <i class="fa fa-arrows-alt me-1" style="font-size: 0.75rem; color: #003366;"></i>
+                        <span class="fw-bold">Dim:</span> <t t-esc="line.product_id.custom_dimension"/>
                     </span>
                 </t>
                 <t t-if="line.product_id.custom_material">
                     <span class="text-nowrap">
-                        <i class="fa fa-cube me-1" style="font-size: 0.7rem;"></i>
-                        <t t-esc="line.product_id.custom_material"/>
+                        <i class="fa fa-cube me-1" style="font-size: 0.75rem; color: #003366;"></i>
+                        <span class="fw-bold">Mat:</span> <t t-esc="line.product_id.custom_material"/>
                     </span>
                 </t>
             </div>
+        </xpath>
+    </t>
+
+    <!-- Juga pastikan muncul di Struk (Receipt) -->
+    <t t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+        <xpath expr="//Orderline" position="inside">
+            <t t-set-slot="details">
+                <div class="pos-receipt-left-padding text-muted" style="font-size: 0.75rem;">
+                    <t t-if="line.product_id.custom_dimension">
+                        <div>Dimensi: <t t-esc="line.product_id.custom_dimension"/></div>
+                    </t>
+                    <t t-if="line.product_id.custom_material">
+                        <div>Material: <t t-esc="line.product_id.custom_material"/></div>
+                    </t>
+                </div>
+            </t>
         </xpath>
     </t>
 </templates>

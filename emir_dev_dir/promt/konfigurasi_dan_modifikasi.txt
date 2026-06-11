@@ -1,0 +1,55 @@
+KONFIGURASI DAN MODIFIKASI
+6.1 Konfigurasi
+Pada implementasinya, terdapat beberapa konfigurasi yang perlu dilakukan untuk menjawab bagaimana sebuah solusi ERP bisa dibuat. berikut adalah beberapa konfigurasi yang dibuat oleh kami untuk membantu mengimplementasi solusi ERP tersebut :
+6.1.1Konfigurasi Data Produk Konfigurasi produk disini adalah agar produk bisa menyesuaikan dengan studi kasus pada deskripsi perusahaan. sehingga POS siap digunakan. Konfigurasi produk dibuat dengan menggunakan fitur import csv pada inventory. berikut adalah dokumentasi konfigurasi Produk.
+
+
+
+
+6.1.2 Konfigurasi Mata Uang (Currency) Sistem bawaan Odoo secara default menggunakan mata uang Dolar (USD). Untuk menyesuaikan dengan operasional Toko Utama Sentosa di Indonesia, dilakukan penyetelan dasar pada modul Akuntansi/Invoicing untuk mengubah mata uang utama perusahaan menjadi Rupiah (IDR).
+ Perubahan ini otomatis mengonversi seluruh perhitungan transaksi di Point of Sale (PoS), termasuk format harga barang dan total belanja
+akan tetapi dengan mengubah currency menjadi idr kita tetap harus mengubah manual pecahan uang kembalian dengan format standar currency indo
+
+
+
+
+6.1.3 Konfigurasi Barcode Produk (EAN-13) Untuk mengotomatisasi pemindaian barang dan menghindari kesalahan input manual (human error)
+sistem dikonfigurasi menggunakan standar barcode internasional EAN-13. Barcode ini di-generate menggunakan generator pihak ketiga (barcode.tec-it.com) dan dimasukkan ke dalam database produk Odoo. Struktur barcode EAN-13 (Contoh: 8992045000171) yang diterapkan adalah sebagai berikut:
+899: Kode Negara (GS1 Prefix) untuk Indonesia.
+2045: Kode unik perusahaan representasi dari Toko Utama Sentosa.
+00017: Nomor urut identifikasi/referensi unik untuk spesifikasi barang (misal: vas bunga).
+1: Check digit (angka checksum) hasil perhitungan matematis modulo 10 untuk memvalidasi pembacaan scanner kasir.
+
+
+6.1.4 Konfigurasi Profil Perusahaan dan Pengaturan Struk (Receipt) Untuk merepresentasikan identitas Toko Utama Sentosa secara profesional di mata pelanggan, dilakukan penyetelan pada profil perusahaan (Company Profile) di dalam pengaturan utama Odoo. Konfigurasi ini mencakup pembaruan nama entitas perusahaan, pengisian data alamat operasional (Jalan Kopo Raya Indah No. 6 Bandung), serta pengunggahan logo resmi perusahaan yang telah didesain secara khusus untuk studi kasus ini
+Seluruh informasi perusahaan beserta logo yang telah dikonfigurasi akan langsung diekstrak dan tercetak pada bagian header struk (receipt) pelanggan saat transaksi selesai. Hal ini tidak hanya meningkatkan kredibilitas dan branding toko (sejalan dengan nilai integritas perusahaan), tetapi juga memberikan informasi kontak dan alamat yang jelas demi kenyamanan pelanggan apabila mereka perlu melakukan retur atau menanyakan jadwal pengiriman barang
+
+
+
+6.2 modifikasi sistem
+6.2.1 Modifikasi Notifikasi Peringatan Pengemasan Khusus Modifikasi source code (OWL/JavaScript) ditambahkan pada antarmuka PoS. Jika kasir memindai barang dengan kategori khusus (seperti Alat potong, Senjata tajam, Bahan kimia, atau Cairan mudah terbakar), sistem secara otomatis menginterupsi layar dan memunculkan pop-up peringatan agar kasir melakukan pengemasan khusus yang aman.
+
+6.2.2 Modifikasi Tema dan UI/UX Point of Sale Tampilan layar kasir dimodifikasi menggunakan injeksi kode SCSS untuk menstandardisasi User Interface (UI) agar relevan dengan branding Toko Utama Sentosa.
+Modifikasi warna meliputi:
+Biru Navy/Dongker (#003366 / #005B99): Diterapkan pada area header dan tombol fungsional utama (seperti tombol Pembayaran) untuk melambangkan profesionalisme.
+Krem Hangat (Warm Beige): Diterapkan sebagai background area produk untuk memberi kesan nyaman dan selaras dengan produk furnitur.
+Merah Bata (Terracotta) & Hijau (#A4D65E): Digunakan sebagai warna aksen pada tombol peringatan dan elemen interaktif lainnya.
+
+6.2.3 Modifikasi Validasi Blokir Penjualan Stok Kosong Untuk menyelesaikan masalah ketidakseimbangan data stok gudang dan pendapatan, ditambahkan validasi real-time sebelum pembayaran divalidasi. Jika sistem mendeteksi barang di gudang sudah habis (kuantitas < 0), sistem akan memblokir transaksi secara otomatis dan memberikan pesan error. Hal ini menjamin tidak ada penjualan "fiktif" atau selisih stok minus.
+
+
+
+6.2.4 Modifikasi Skenario Audit & Return (Alasan Refund) Secara bawaan (default), sistem Odoo Point of Sale mengizinkan proses pengembalian barang (refund) tanpa mewajibkan pencatatan alasan mengapa barang tersebut dikembalikan. Untuk meningkatkan kualitas pelaporan bulanan dan mendukung proses audit di Toko Utama Sentosa, dilakukan penyesuaian logika sistem dengan menambahkan atribut refund_reason ke dalam basis data.
+
+Dengan modifikasi ini, ketika kasir melakukan proses retur dan menekan tombol "Refund", antarmuka sistem akan memunculkan pop-up dialog yang memaksa kasir untuk memilih "Alasan Retur" (seperti: Barang Cacat Pabrik, Rusak saat Pengiriman, dsb.).
+Fitur ini sangat signifikan karena manajemen dapat melacak dan menganalisis laporan bulanan terkait penyebab utama barang rusak atau dikembalikan oleh pelanggan
+.
+
+6.2.5 Modifikasi Penambahan Atribut Detail Produk (Katalog PoS) Mengingat Toko Utama Sentosa bergerak di bidang penjualan perabotan dan dekorasi rumah, pelanggan sering kali menanyakan spesifikasi fisik barang secara detail sebelum melakukan pembelian. Untuk menjawab tantangan operasional harian agar kasir dapat melayani pelanggan dengan cepat dan akurat, dilakukan modifikasi struktur data (database) dengan menambahkan atribut khusus pada model produk, yaitu custom_dimension (Dimensi) dan custom_material (Material).
+
+Signifikansi dari modifikasi ini adalah penyajian informasi teknis yang terstruktur langsung di layar Point of Sale (PoS). Efek dari implementasi ini sangat besar terhadap efisiensi pelayanan; ketika pelanggan bertanya mengenai spesifikasi barang (misalnya: "Bahannya kayu apa?" atau "Ukurannya berapa kali berapa?"), kasir dapat langsung memberikan jawaban pasti dengan melihat field kustom tersebut. Hal ini meniadakan keharusan kasir untuk membaca deskripsi teks yang panjang dan menyulitkan, serta mencegah kesalahan pemberian informasi kepada pelanggan.
+
+
+
+
+
