@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: odoo-sentosa
+    env: docker
+    plan: starter # Atau free jika ada
+    disk:
+      name: odoo-filestore
+      mountPath: /var/lib/odoo
+      sizeGB: 1
+    envVars:
+      - key: DB_HOST
+        value: # Akan diisi otomatis jika pakai database dari Render atau diisi manual di dashboard
+      - key: DB_USER
+        value: odoo_admin
+      - key: DB_PASSWORD
+        value: # Isi dari dashboard Render
+      - key: DB_NAME
+        value: odoo_polban_19
+      - key: DB_PORT
+        value: "5432"
+    ports:
+      - 8069
+
+databases:
+  - name: odoo-db
+    plan: starter # Atau free
+    databaseName: odoo_polban_19
+    user: odoo_admin
