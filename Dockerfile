@@ -1,6 +1,6 @@
 FROM python:3.11-slim-bookworm
 
-# Install dependencies sistem
+# Install dependencies sistem (ditambah postgresql-client agar psql bisa jalan di dalam container)
 RUN apt-get update && apt-get install -y \
     python3-dev \
     libxml2-dev \
@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     libfribidi-dev \
     libxcb1-dev \
     libpq-dev \
+    postgresql-client \
     gcc \
     git \
     curl \
@@ -28,14 +29,14 @@ WORKDIR /opt/odoo
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy seluruh source code Odoo dan custom_addons
+# Copy seluruh source code dan file data
 COPY . .
 
 # Buat user odoo agar aman
 RUN useradd -m -d /opt/odoo -s /bin/bash odoo \
     && chown -R odoo:odoo /opt/odoo
 
-# Buat folder untuk filestore (biar gambar gak ilang)
+# Buat folder untuk filestore
 RUN mkdir -p /var/lib/odoo && chown -R odoo:odoo /var/lib/odoo
 VOLUME ["/var/lib/odoo"]
 
@@ -44,5 +45,5 @@ USER odoo
 # Port Odoo
 EXPOSE 8069
 
-# Command untuk menjalankan Odoo
-CMD ["sh", "-c", "python3 odoo-bin --addons-path=addons,custom_addons -d ${DB_NAME:-odoo_polban_19} --db_host=${DB_HOST} --db_user=${DB_USER} --db_password=${DB_PASSWORD} --db_port=${DB_PORT:-5432}"]
+# Gunakan script entrypoint buatan saya
+ENTRYPOINT ["/opt/odoo/entrypoint.sh"]
