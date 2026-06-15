@@ -18,5 +18,14 @@ else
   echo "Database already has data. Skipping import."
 fi
 
-# Jalankan Odoo normal
-exec python3 odoo-bin --addons-path=addons,custom_addons -d "$DB_NAME" --db_host="$DB_HOST" --db_user="$DB_USER" --db_password="$DB_PASSWORD" --db_port="$DB_PORT"
+# Jalankan Odoo dengan data-dir (biar gambar gak ilang) dan proxy-mode (biar gak error di Render)
+exec python3 odoo-bin \
+    --addons-path=addons,custom_addons \
+    -d "$DB_NAME" \
+    --db_host="$DB_HOST" \
+    --db_user="$DB_USER" \
+    --db_password="$DB_PASSWORD" \
+    --db_port="$DB_PORT" \
+    --data-dir=/var/lib/odoo \
+    --proxy-mode \
+    --workers=0

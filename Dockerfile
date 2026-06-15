@@ -1,6 +1,6 @@
 FROM python:3.11-slim-bookworm
 
-# Install dependencies sistem (ditambah postgresql-client agar psql bisa jalan di dalam container)
+# Install dependencies sistem (ditambah libpng dan zlib untuk gambar)
 RUN apt-get update && apt-get install -y \
     python3-dev \
     libxml2-dev \
@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     libfribidi-dev \
     libxcb1-dev \
     libpq-dev \
+    libpng-dev \
+    zlib1g-dev \
     postgresql-client \
     gcc \
     git \
@@ -36,7 +38,7 @@ COPY . .
 RUN useradd -m -d /opt/odoo -s /bin/bash odoo \
     && chown -R odoo:odoo /opt/odoo
 
-# Buat folder untuk filestore
+# Buat folder untuk filestore (Mounted ke Render Disk)
 RUN mkdir -p /var/lib/odoo && chown -R odoo:odoo /var/lib/odoo
 VOLUME ["/var/lib/odoo"]
 
@@ -45,5 +47,5 @@ USER odoo
 # Port Odoo
 EXPOSE 8069
 
-# Gunakan script entrypoint buatan saya
+# Gunakan script entrypoint
 ENTRYPOINT ["/opt/odoo/entrypoint.sh"]
