@@ -11,7 +11,19 @@ class PosOrder(models.Model):
     @api.model
     def _load_pos_data_fields(self, config_id):
         res = super()._load_pos_data_fields(config_id)
+        # Tambahkan field kustom kita
         res += ['delivery_datetime', 'is_mobil_pickup', 'refund_reason']
+        return res
+
+class PosConfig(models.Model):
+    _inherit = 'pos.config'
+
+    @api.model
+    def _load_pos_data_fields(self, config_id):
+        res = super()._load_pos_data_fields(config_id)
+        # Memastikan field course_ids tetap ikut dimuat meskipun di lingkungan cloud
+        if 'course_ids' not in res:
+            res.append('course_ids')
         return res
 
     @api.model
